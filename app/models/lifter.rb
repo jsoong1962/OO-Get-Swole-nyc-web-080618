@@ -11,7 +11,7 @@ class Lifter
     @@all << self
   end
 
-  def lifter_membership
+  def memberships
     array = []
     Membership.all.each do |member|
     if member.lifter == self
@@ -21,17 +21,17 @@ class Lifter
   array
 end
 
-def lifter_gyms
+def gyms
   array = []
   Membership.all.each do |member|
   if member.lifter == self
-    array << member.gym.name
+    array << member.gym
   end
 end
 array
 end
 
-def self.avg_total_lifters
+def self.average_lift
   total = 0
   self.all.each do |lifter|
     total += lifter.lift_total
@@ -39,7 +39,7 @@ def self.avg_total_lifters
   (total.to_f / self.all.length).round
 end
 
-def total_cost_lifter_memberships
+def total_cost
   total = 0
   Membership.all.each do |member|
     if member.lifter == self
@@ -49,8 +49,8 @@ def total_cost_lifter_memberships
   total
 end
 
-def new_gym(gym, cost)
-  Membership.new(self, gym, 10)
+def sign_up(cost, gym)
+  Membership.new(self, gym, cost)
 end
 
   def self.all

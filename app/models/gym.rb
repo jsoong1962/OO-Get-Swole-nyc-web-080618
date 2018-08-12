@@ -8,7 +8,7 @@ class Gym
     ALL << self
   end
 
-def membership
+def memberships
   array = []
   Membership.all.each do |member|
     if member.gym == self
@@ -18,7 +18,7 @@ def membership
   array
 end
 
-def list_of_lifters
+def lifters
   array = []
   Membership.all.each do |member|
     if member.gym == self
@@ -28,7 +28,7 @@ def list_of_lifters
   array
 end
 
-def names_of_lifters
+def lifter_names
   array = []
   Membership.all.each do |member|
     if member.gym == self
@@ -38,7 +38,7 @@ def names_of_lifters
   array
 end
 
-def combined_total
+def lift_total_for_gym
   total = 0
   Membership.all.each do |member|
     if member.gym == self
