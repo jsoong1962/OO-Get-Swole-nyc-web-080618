@@ -1,34 +1,29 @@
 
 class Lifter
+attr_reader :name, :lift_total
 
-  attr_reader :name, :lift_total
+@@all = []
 
-  @@all = []
+def initialize(name, lift_total)
+  @name = name
+  @lift_total = lift_total
+  @@all << self
+end
 
-  def initialize(name, lift_total)
-    @name = name
-    @lift_total = lift_total
-    @@all << self
+def self.all
+  @@all
+end
+
+def memberships
+  Membership.all.select do |membership|
+    membership.lifter == self
   end
-
-  def memberships
-    array = []
-    Membership.all.each do |member|
-    if member.lifter == self
-      array << member
-    end
-  end
-  array
 end
 
 def gyms
-  array = []
-  Membership.all.each do |member|
-  if member.lifter == self
-    array << member.gym
-  end
+ memberships.map do |membership|
+   membership.gym
 end
-array
 end
 
 def self.average_lift
@@ -36,26 +31,19 @@ def self.average_lift
   self.all.each do |lifter|
     total += lifter.lift_total
   end
-  (total.to_f / self.all.length).round
+  (total / self.all.length.to_f).round
+end
+
+def sign_up(gym, cost)
+  Membership.new(self, gym, cost)
 end
 
 def total_cost
   total = 0
-  Membership.all.each do |member|
-    if member.lifter == self
-      total += member.cost
-    end
+  memberships.each do |membership|
+    total += membership.cost
   end
-  total
+  total 
 end
-
-def sign_up(cost, gym)
-  Membership.new(self, gym, cost)
-end
-
-  def self.all
-    @@all
-  end
-
 
 end

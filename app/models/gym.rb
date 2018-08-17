@@ -1,54 +1,40 @@
 class Gym
- ALL = []
+ attr_reader :name
+ @@all = []
 
-  attr_reader :name
+ def initialize(name)
+   @name = name
+   @@all << self
+ end
 
-  def initialize(name)
-    @name = name
-    ALL << self
-  end
+def self.all
+  @@all
+end
 
 def memberships
-  array = []
-  Membership.all.each do |member|
-    if member.gym == self
-      array << member
-    end
+  Membership.all.select do |membership|
+    membership.gym == self
   end
-  array
 end
 
 def lifters
-  array = []
-  Membership.all.each do |member|
-    if member.gym == self
-      array << member.lifter
-    end
+  memberships.map do |membership|
+    membership.lifter
   end
-  array
 end
 
 def lifter_names
-  array = []
-  Membership.all.each do |member|
-    if member.gym == self
-      array << member.lifter.name
-    end
+  lifters.map do |lifter|
+    lifter.name
   end
-  array
 end
 
 def lift_total_for_gym
   total = 0
-  Membership.all.each do |member|
-    if member.gym == self
-      total += member.lifter.lift_total
-    end
+  lifters.each do |lifter|
+    total += lifter.lift_total
   end
   total
 end
-  def self.all
-    ALL
-  end
 
 end
